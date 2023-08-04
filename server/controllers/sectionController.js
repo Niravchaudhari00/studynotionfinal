@@ -24,7 +24,6 @@ export const createSection = async (req, res) => {
           )
                .populate({ path: "courseContent" })
                .exec();
-          console.log(updateCourse);
           // return respons
           return res.status(201).json({
                success: true,
@@ -44,10 +43,10 @@ export const createSection = async (req, res) => {
 export const updateSection = async (req, res) => {
      try {
           // Fetch the data from req body
-          const { sectionName, sectionId } = req.body;
+          const { sectionName, sectionId, courseId } = req.body;
 
           // Check section availeble or not
-          const isSection = await Section.findById({ _id: sectionId })
+          const isSection = await Section.findById({ _id: sectionId });
           if (!isSection) {
                return res.status(404).json({
                     success: false,
@@ -55,17 +54,23 @@ export const updateSection = async (req, res) => {
                });
           }
           // Update sectionName
-          const updateSection = await Section.findByIdAndUpdate(
+          await Section.findByIdAndUpdate(
                { _id: isSection._id },
                { sectionName: sectionName },
                { new: true }
           );
 
+          const course = await Course.findById(courseId).populate({
+               path: "courseContent",
+               populate: {
+                    path: "subSection",
+               },
+          });
           // return respons
           return res.status(201).json({
                success: true,
                message: `Update section successfully`,
-               data: updateSection,
+               data: course,
           });
      } catch (error) {
           return res.status(500).json({
@@ -79,7 +84,6 @@ export const updateSection = async (req, res) => {
 // delete section
 export const sectionDelete = async (req, res) => {
      try {
-
           const sectionId = req.query.id;
           // convert section id cast
           const id = sectionId.match(/^[0-9a-fA-F]{24}$/);
@@ -91,7 +95,6 @@ export const sectionDelete = async (req, res) => {
                success: true,
                message: `Delete section successfully`,
           });
-
      } catch (error) {
           return res.status(500).json({
                success: false,

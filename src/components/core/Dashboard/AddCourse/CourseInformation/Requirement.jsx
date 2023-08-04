@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { CiCircleRemove } from "react-icons/ci";
 const Requirement = ({ label, name, register, setValue, errors }) => {
      const { course, editCourse } = useSelector((state) => state.course);
-
      const [requirementField, setRequirmentField] = useState("");
      const [requirementList, setRequirementList] = useState([]);
-
+     // console.log(`requirementList`, requirementList);
      const handleAddRequirement = () => {
           if (requirementField) {
                setRequirementList([...requirementList, requirementField]);
@@ -16,7 +14,7 @@ const Requirement = ({ label, name, register, setValue, errors }) => {
      //
      useEffect(() => {
           if (editCourse) {
-               setRequirementList(course?.instruction);
+               setRequirementList(course?.instructions);
           }
 
           register(name, {
@@ -41,7 +39,7 @@ const Requirement = ({ label, name, register, setValue, errors }) => {
                          {label}
                          <sup className="text-pink-200">*</sup>
                     </label>
-                    <div className="flex flex-col items-start space-y-2 ">
+                    <div className="flex flex-col items-start space-y-2 relative">
                          <input
                               name={name}
                               value={requirementField}
@@ -83,13 +81,12 @@ const Requirement = ({ label, name, register, setValue, errors }) => {
                                    </ul>
                               )}
                          </div>
+                         {errors[name] && (
+                              <span className="ml-2 text-xs tracking-wide text-pink-200 absolute top-12">
+                                   {label} is required
+                              </span>
+                         )}
                     </div>
-
-                    {errors[name] && (
-                         <span className="ml-2 text-xs tracking-wide text-pink-200">
-                              {label} is required
-                         </span>
-                    )}
                </div>
           </>
      );

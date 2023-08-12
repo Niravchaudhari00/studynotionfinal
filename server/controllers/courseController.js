@@ -27,9 +27,22 @@ export const createCourse = async (req, res) => {
                status,
                instructions: _instructions,
           } = req.body;
+
           const thumbnail = req.files.thumbnailImage;
+          // Support file type
+          const supportFileType = ["jpg", "jpeg", "png"];
+          const fileType = thumbnail.name.split(".")[1].toLowerCase();
+          if (!isFileTypeSupported(supportFileType, fileType)) {
+               return res.status(401).json({
+                    success: false,
+                    message: `This file type can't supported. Only can support jpg,jpeg and png`,
+               });
+          }
+
           const tag = JSON.parse(_tag);
           const instructions = JSON.parse(_instructions);
+
+          // all field are required
           if (
                !courseName ||
                !courseDescription ||
@@ -50,10 +63,12 @@ export const createCourse = async (req, res) => {
           if (!status || status == undefined) {
                status = "Draft";
           }
+
           // Check the instructor details are available or not
           const isInstructor = await User.findById(userId, {
                accountType: "instruction",
           });
+
           if (!isInstructor) {
                return res.status(404).json({
                     success: false,
@@ -69,21 +84,12 @@ export const createCourse = async (req, res) => {
                     message: `Category details not found`,
                });
           }
-          // Support file type
-          const supportFileType = ["jpg", "jpeg", "png"];
-          const fileType = thumbnail.name.split(".")[1].toLowerCase();
-          if (!isFileTypeSupported(supportFileType, fileType)) {
-               return res.status(401).json({
-                    success: false,
-                    message: `This file type can't supported. Only can support jpg,jpeg and png`,
-               });
-          }
+
           // upload thumbnail in cloudinary
           const thumbnailImage = await fileUploadOnCloudinary(
                thumbnail,
                process.env.CLOUD_FOLDER_NAME
           );
-          console.log(`thumbnailImage => ${thumbnailImage}`);
 
           // create a course in db
           const saveCourse = await Course.create({
@@ -94,7 +100,7 @@ export const createCourse = async (req, res) => {
                price,
                tag,
                category: isCategory._id,
-               thumbnail: thumbnailImage.secoure_url,
+               thumbnail: thumbnailImage.secure_url,
                status: status,
                instructions,
           });

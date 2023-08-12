@@ -7,6 +7,7 @@ const fileUploadOnCloudinary = async (
   height,
   quelity
 ) => {
+  
   const options = { folder };
   if (height) options.height = height;
   if (quelity) options.quelity = quelity;

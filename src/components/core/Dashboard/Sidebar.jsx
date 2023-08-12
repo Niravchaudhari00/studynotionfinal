@@ -11,10 +11,10 @@ const Sidebar = () => {
      const [confirmModal, setConfirmModal] = useState(null);
      const dispatch = useDispatch();
      const navigate = useNavigate();
-     
+
      return (
           <>
-               <div className="flex min-h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10 ">
+               <div className="hidden lg:flex min-h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10 ">
                     <div className="flex flex-col">
                          {sidebarLinks.map((link) => {
                               if (link.type && user.accountType !== link.type) {
@@ -43,11 +43,14 @@ const Sidebar = () => {
                               onClick={() =>
                                    setConfirmModal({
                                         title: "Are you sure?",
-                                        subTitle: "You will be logged out your account.",
+                                        subTitle:
+                                             "You will be logged out your account.",
                                         confirmBtnTxt: "Logout",
                                         cancelBtnTxt: "Cancel",
-                                        btnConfirmHandler: () => dispatch(logout(navigate)),
-                                        btnCancelHandler: () => setConfirmModal(null),
+                                        btnConfirmHandler: () =>
+                                             dispatch(logout(navigate)),
+                                        btnCancelHandler: () =>
+                                             setConfirmModal(null),
                                    })
                               }
                               className="px-8 py-2 text-sm font-medium text-richblack-300"

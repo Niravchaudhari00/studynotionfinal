@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import IconBtn from "../../../common/IconBtn";
@@ -12,7 +12,6 @@ const ChangePassword = () => {
      const dispatch = useDispatch();
 
      const { token } = useSelector((state) => state.auth);
-     const [showCurrentPass, setShowCurrentPass] = useState(false);
      const [showNewPassword, setShowNewPassword] = useState(false);
      const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -62,11 +61,7 @@ const ChangePassword = () => {
                                         Current Password
                                    </label>
                                    <input
-                                        type={
-                                             showCurrentPass
-                                                  ? "text"
-                                                  : "password"
-                                        }
+                                        type={"password"}
                                         name="currentPassword"
                                         id="currentPassword"
                                         placeholder="Enter Current Password"

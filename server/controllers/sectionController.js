@@ -1,6 +1,6 @@
 import Section from "../models/Section.js";
 import Course from "../models/Course.js";
-
+import SubSection from "../models/SubSection.js";
 // Create section
 export const createSection = async (req, res) => {
      try {
@@ -84,16 +84,36 @@ export const updateSection = async (req, res) => {
 // delete section
 export const sectionDelete = async (req, res) => {
      try {
-          const sectionId = req.query.id;
-          // convert section id cast
-          const id = sectionId.match(/^[0-9a-fA-F]{24}$/);
-          // console.log(`id -> ${id}`);
-          await Section.findByIdAndDelete({ _id: id });
+          const { sectionId, courseId } = req.body;
+          await Course.findByIdAndUpdate(courseId, {
+               $pull: {
+                    courseContent: sectionId,
+               },
+          });
 
-          // return respons
+          const section = await Section.findById({ _id: sectionId });
+          if (!section) {
+               return res.status(405).json({
+                    success: false,
+                    message: `Section Not Found`,
+               });
+          }
+          await SubSection.deleteMany({ _id: { $in: section.subSection } });
+          await Section.findByIdAndDelete({ _id: sectionId });
+
+          const course = await Course.findById(courseId)
+               .populate({
+                    path: "courseContent",
+                    populate: {
+                         path: "subSection",
+                    },
+               })
+               .exec();
+
           return res.status(200).json({
                success: true,
-               message: `Delete section successfully`,
+               message: `Section Delete Successfully`,
+               data: course,
           });
      } catch (error) {
           return res.status(500).json({

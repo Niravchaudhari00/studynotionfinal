@@ -3,7 +3,8 @@ import SubSection from "../models/SubSection.js";
 import fileUploadOnCloudinary, {
      isFileTypeSupported,
 } from "../utils/fileUploadOnCloudinary.js";
-
+import { config } from "dotenv";
+config();
 // create sub section
 export const subSectionCreate = async (req, res) => {
      try {
@@ -70,10 +71,10 @@ export const subSectionCreate = async (req, res) => {
 // update sub section
 export const updateSubSection = async (req, res) => {
      try {
+          console.log(`CODE START`);
+          const { description, title, subSectionId, sectionId } = req.body;
           // fetch the data
-          const { title, description, subSectionId } = req.body;
-          const video = req.files.videoFile;
-          const subSection = await SubSection.findById({ _id: subSectionId });
+          const subSection = await SubSection.findById(subSectionId);
           if (!subSection) {
                return res.status(404).json({
                     success: false,
@@ -89,7 +90,6 @@ export const updateSubSection = async (req, res) => {
           }
 
           if (req.files && req.files.videoFile === undefined) {
-               
                const supportType = ["mp4", "mov", "webm"];
                const fileTpye = video.name.split(".")[1].toLowerCase();
                // File validation
@@ -105,13 +105,18 @@ export const updateSubSection = async (req, res) => {
                     process.env.CLOUD_FOLDER_NAME
                );
 
-               subSection.videoUrl = uploadDetails.secour_url;
+               subSection.videoUrl = uploadDetails.secure_url;
                subSection.timeDuration = `${uploadDetails.duration.toFixed(2)}`;
           }
 
           // save the sub section
           await subSection.save();
 
+          // updated sub section
+          const updateSubSection = await Section.findById(sectionId).populate(
+               "subSection"
+          );
+          
           // return respons
           return res.status(201).json({
                success: true,
@@ -154,10 +159,14 @@ export const deleteSubSection = async (req, res) => {
                });
           }
 
+          const updateSection = await Section.findById(sectionId).populate(
+               "subSection"
+          );
           // return respons
           return res.status(200).json({
                success: true,
                message: `Delete sub section successfully`,
+               data: updateSection,
           });
      } catch (error) {
           return res.status(500).json({

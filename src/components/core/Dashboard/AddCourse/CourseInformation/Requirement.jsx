@@ -53,7 +53,7 @@ const Requirement = ({ label, name, register, setValue, errors }) => {
                               <button
                                    type="button"
                                    onClick={handleAddRequirement}
-                                   className="flex self-start  justify-center items-center font-semibold rounded-lg mt-2 bg-yellow-50 py-1 px-2 "
+                                   className="flex  justify-center items-center font-semibold rounded-lg mt-2 bg-richblack-600/50 text-richblack-5 py-1 px-2 "
                               >
                                    Add
                               </button>
@@ -81,10 +81,14 @@ const Requirement = ({ label, name, register, setValue, errors }) => {
                                    </ul>
                               )}
                          </div>
-                         {errors[name] && (
-                              <span className="ml-2 text-xs tracking-wide text-pink-200 absolute top-12">
-                                   {label} is required
-                              </span>
+                         {!requirementList.length > 0 ? (
+                              errors[name] && (
+                                   <span className="ml-2 text-xs tracking-wide text-pink-200 absolute top-12">
+                                        {label} is required
+                                   </span>
+                              )
+                         ) : (
+                              <></>
                          )}
                     </div>
                </div>

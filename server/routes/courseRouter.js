@@ -41,7 +41,7 @@ const router = Router();
 // 1.course
 router.post("/createCourse", Auth, isInstructor, createCourse);
 router.put("/updateCourse", Auth, isInstructor, editCourse);
-router.delete('/deleteCourse', deleteCourse)
+router.delete("/deleteCourse", deleteCourse);
 router.get("/getInstructorCourses", Auth, isInstructor, getInstructorCourses);
 
 router.get("/getAllCourse", getAllCourses);
@@ -56,7 +56,7 @@ router.delete("/deleteSection/", Auth, isInstructor, sectionDelete);
 // 3. Sub Section
 router.post("/addSubSection", Auth, isInstructor, subSectionCreate);
 router.put("/updateSubSection", Auth, isInstructor, updateSubSection);
-router.post("/deleteSubSection", Auth, isInstructor, deleteSubSection);
+router.delete("/deleteSubSection", Auth, isInstructor, deleteSubSection);
 
 // *******************************//
 //           Admin Routes        //

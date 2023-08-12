@@ -29,11 +29,19 @@ export const SettingEndPoint = {
 
 // COURSE END POINT
 export const CourseEndPoint = {
+     // Course API
      COURSE_CATEGORY_API: `${BASE_URL}/course/getAllCategory`,
      ADD_COURSE_API: `${BASE_URL}/course/createCourse`,
      UPDATE_COURSE_API: `${BASE_URL}/course/updateCourse`,
 
-     //Section Api
+     //Section API
      ADD_SECTION_API: `${BASE_URL}/course/addSection`,
      UPDATE_SECTION_API: `${BASE_URL}/course/updateSection`,
+     DELETE_SECTION_API: `${BASE_URL}/course/deleteSection`,
+
+     // Sub Section API
+     ADD_SUB_SECTION_API: `${BASE_URL}/course/addSubSection`,
+     UPDATE_SUB_SECTION_API: `${BASE_URL}/course/updateSubSection`,
+     DELETE_SUB_SECTION_API: `${BASE_URL}/course/deleteSubSection`,
+
 };

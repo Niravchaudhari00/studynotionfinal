@@ -76,10 +76,14 @@ const ChipInput = ({
                          onKeyDown={handleKeyDown}
                          className="form-style w-full"
                     />
-                    {errors[name] && (
-                         <span className="ml text-xs tracking-wide text-pink-200">
-                              {label} is required{" "}
-                         </span>
+                    {!chips.length > 0 ? (
+                         errors[name] && (
+                              <span className="ml text-xs tracking-wide text-pink-200">
+                                   {label} is required{" "}
+                              </span>
+                         )
+                    ) : (
+                         <></>
                     )}
                </div>
           </div>

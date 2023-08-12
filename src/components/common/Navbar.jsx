@@ -14,7 +14,7 @@ const Navbar = () => {
      const [subLinks, setSubLink] = useState([]);
      const [loading, setLoading] = useState(false);
      const location = useLocation();
-
+     const [toggle, setToggle] = useState(false);
      const { token } = useSelector((state) => state.auth);
      const { user } = useSelector((state) => state.profile);
      const { totalItem } = useSelector((state) => state.cart);
@@ -207,7 +207,11 @@ const Navbar = () => {
                               {token !== null && <ProfileDropDown />}
                          </div>
                     </div>
-                    <button className="mr-4 md:hidden">
+                    <button
+                         type="button"
+                         onClick={() => setToggle((prev) => !prev == true)}
+                         className="mr-4 md:hidden"
+                    >
                          <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
                     </button>
                </div>

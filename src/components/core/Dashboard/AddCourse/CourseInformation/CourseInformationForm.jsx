@@ -57,6 +57,7 @@ const CourseInformationForm = () => {
      // is form update or not
      const isFormUpdate = () => {
           const currentValue = getValues();
+          console.log(`get value`, currentValue);
           if (
                currentValue.courseName !== course.courseName ||
                currentValue.courseDescription !== course.courseDescription ||
@@ -65,7 +66,7 @@ const CourseInformationForm = () => {
                currentValue.category !== course.category ||
                currentValue.courseTag.toString() !== course.tag.toString() ||
                currentValue.courseInstruction.toString() !==
-                    course.instructions.toString() ||
+               course.instructions.toString() ||
                currentValue.courseThumnail !== course.thumbnail
           ) {
                return true;

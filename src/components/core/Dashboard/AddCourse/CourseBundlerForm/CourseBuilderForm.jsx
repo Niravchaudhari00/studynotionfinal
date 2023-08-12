@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import IconBtn from "../../../../common/IconBtn";
 import { IoAddCircleOutline } from "react-icons/io5";
@@ -28,7 +28,6 @@ const CourseBuilderForm = () => {
           register,
           handleSubmit,
           formState: { errors },
-          getValues,
           setValue,
      } = useForm();
 
@@ -62,13 +61,22 @@ const CourseBuilderForm = () => {
           setValue("sectionName", "");
      };
 
-     const handleEditSection = () => {};
+     const handleEditSection = (sectionId, sectionName) => {
+          if (editSection === sectionId) {
+               cancelEditHandle();
+               return;
+          }
+
+          setEditSection(sectionId);
+          setValue("sectionName", sectionName);
+     };
 
      // Go Back
      const GoBack = () => {
           dispatch(setStep(1));
           dispatch(setEditCourse(true));
      };
+     // Go Next
      const GoNext = () => {
           console.log("next click");
      };
@@ -124,7 +132,7 @@ const CourseBuilderForm = () => {
                                    <button
                                         type="button"
                                         onClick={cancelEditHandle}
-                                        className="cursor-pointer px-2 font-semibold rounded-md bg-yellow-50 text-richblack-900"
+                                        className="cursor-pointer px-2 font-semibold rounded-md bg-richblack-400 text-richblack-900"
                                    >
                                         Cancel
                                    </button>

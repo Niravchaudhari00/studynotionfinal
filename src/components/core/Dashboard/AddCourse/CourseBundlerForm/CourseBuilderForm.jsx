@@ -15,6 +15,7 @@ import {
 
 import NestedView from "./NestedView";
 import { MdNavigateNext } from "react-icons/md";
+import { toast } from "react-hot-toast";
 const CourseBuilderForm = () => {
      const dispatch = useDispatch();
      const { token } = useSelector((state) => state.auth);
@@ -78,7 +79,15 @@ const CourseBuilderForm = () => {
      };
      // Go Next
      const GoNext = () => {
-          console.log("next click");
+          if (course.courseContent.length === 0) {
+               toast.error("Please atleast one section");
+               return;
+          }
+          if (course.courseContent.some((section) => section.subSection.length === 0)) {
+               toast.error(`Please alteast add one lecture in each section`);
+               return;
+          }
+          dispatch(setStep(3));
      };
      return (
           <>

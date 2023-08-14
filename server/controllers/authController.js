@@ -207,15 +207,15 @@ export const sendOtp = async (req, res) => {
                upperCaseAlphabets: false,
                specialChars: false,
           });
-          console.log("otp", otp);
+          // console.log("otp", otp);
           let result = await OTP.findOne({ otp: otp });
-          console.log(`find otp in db -> ${result}`);
+          // console.log(`find otp in db -> ${result}`);
           while (result) {
                otp = otpGenerator.generate(6, {
                     upperCaseAlphabets: false,
                });
           }
-          console.log(`otp result ->`, result);
+          // console.log(`otp result ->`, result);
           // end bed code
 
           // save otp in db

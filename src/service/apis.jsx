@@ -33,6 +33,7 @@ export const CourseEndPoint = {
      COURSE_CATEGORY_API: `${BASE_URL}/course/getAllCategory`,
      ADD_COURSE_API: `${BASE_URL}/course/createCourse`,
      UPDATE_COURSE_API: `${BASE_URL}/course/updateCourse`,
+     DELETE_COURSE_API: `${BASE_URL}/course/deleteCourse`,
 
      //Section API
      ADD_SECTION_API: `${BASE_URL}/course/addSection`,
@@ -44,4 +45,7 @@ export const CourseEndPoint = {
      UPDATE_SUB_SECTION_API: `${BASE_URL}/course/updateSubSection`,
      DELETE_SUB_SECTION_API: `${BASE_URL}/course/deleteSubSection`,
 
+     // GET Course details
+     GET_INSTRUCTOR_COURSE_DETAILS: `${BASE_URL}/course/getInstructorCourses`,
+     GET_ALL_COURSE_DETAILS: `${BASE_URL}/course/getFullCourseDetails`
 };

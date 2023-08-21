@@ -8,6 +8,7 @@ import { config } from "dotenv";
 import convertSecondToDuration from "../utils/convertSecondToDuration.js";
 import Section from "../models/Section.js";
 import SubSection from "../models/SubSection.js";
+import CourseProgress from "../models/CourseProgress.js";
 
 config();
 
@@ -142,7 +143,7 @@ export const createCourse = async (req, res) => {
 export const editCourse = async (req, res) => {
      try {
           const { courseId } = req.body;
-          const udpates = req.body;
+          const updates = req.body;
           const course = await Course.findById(courseId);
           if (!course) {
                return res.status(404).json({
@@ -150,7 +151,20 @@ export const editCourse = async (req, res) => {
                     message: `Course Not Founds`,
                });
           }
-          console.log(req.files);
+          // Update only the fiels that are present in the reques body
+          for (const key in updates) {
+               if (updates.hasOwnProperty(key)) {
+                    if (key === "tag" || key === "instructions") {
+                         course[key] = JSON.parse(updates[key]);
+                    } else {
+                         course[key] = updates[key];
+                    }
+               }
+          }
+          console.log("course id", courseId);
+          console.log("UPDATE DATA VALUE =>", updates);
+
+          console.log("COURSE FILE =>", req.files);
           if (req.files) {
                const thumbnail = req.files.thumbnailImage;
                const supportFileType = ["jpg", "jpeg", "png"];
@@ -166,17 +180,6 @@ export const editCourse = async (req, res) => {
                     process.env.CLOUD_FOLDER_NAME
                );
                course.thumbnail = thumbnailImage.secure_url;
-          }
-
-          // Update only the fiels that are present in the reques body
-          for (const key in udpates) {
-               if (udpates.hasOwnProperty(key)) {
-                    if (key === "tag" || key === "instructions") {
-                         course[key] = JSON.parse(udpates[key]);
-                    } else {
-                         course[key] = udpates[key];
-                    }
-               }
           }
 
           await course.save();
@@ -332,8 +335,6 @@ export const getFullCourseDetails = async (req, res) => {
                userId: userId,
           });
 
-          console.log("courseProgressCount : ", courseProgressCount);
-
           if (!courseDetails) {
                return res.status(400).json({
                     success: false,
@@ -402,13 +403,13 @@ export const getInstructorCourses = async (req, res) => {
 export const deleteCourse = async (req, res) => {
      try {
           const { courseId } = req.body;
+
           const course = await Course.findById({ _id: courseId });
           if (!course) {
                return res.status(404).json({ message: "Course not found" });
           }
 
           const studentsEnrolled = course.studentsEnrolled;
-          console.log("studentEnrolled", studentsEnrolled);
           for (const studentId of studentsEnrolled) {
                await User.findByIdAndUpdate(studentId, {
                     $pull: { courses: courseId },
@@ -431,8 +432,8 @@ export const deleteCourse = async (req, res) => {
           await Course.findByIdAndDelete(courseId);
 
           res.status(200).json({
-               success: false,
-               messaga: `Course delete successfully.`,
+               success: true,
+               message: `Course delete successfully.`,
           });
      } catch (error) {
           return res.status(500).json({

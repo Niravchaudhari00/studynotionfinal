@@ -3,6 +3,7 @@ import { FaCheck } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import CourseInformationForm from "./CourseInformation/CourseInformationForm";
 import CourseBundlerForm from "./CourseBundlerForm/CourseBuilderForm";
+import PublishCourse from "./PublishCourse/PublishCourse";
 
 const RenderSteps = () => {
      const { step } = useSelector((state) => state.course);
@@ -31,14 +32,12 @@ const RenderSteps = () => {
                                    className="flex flex-col item-center"
                               >
                                    <button
-                                        className={`grid cursor-default aspect-square w-[34px] place-items-center rounded-full border-[1px] ${
-                                             step === item.id
-                                                  ? "border-yellow-50 bg-yellow-900 text-yellow-50"
-                                                  : "border-richblack-700 bg-richblack-800 text-richblack-300"
-                                        } ${
-                                             step > item.id &&
+                                        className={`grid cursor-default aspect-square w-[34px] place-items-center rounded-full border-[1px] ${step === item.id
+                                             ? "border-yellow-50 bg-yellow-900 text-yellow-50"
+                                             : "border-richblack-700 bg-richblack-800 text-richblack-300"
+                                             } ${step > item.id &&
                                              "bg-yellow-50 text-yellow-50"
-                                        }`}
+                                             }`}
                                    >
                                         {step > item.id ? (
                                              <FaCheck className="font-bold text-richblack-900" />
@@ -49,11 +48,10 @@ const RenderSteps = () => {
                               </div>
                               {item.id !== steps.length && (
                                    <div
-                                        className={`h-[calc(34px/2)] w-[33%] border-dashed border-b-2 ${
-                                             step > item.id
-                                                  ? "border-yellow-50"
-                                                  : "border-richblack-500"
-                                        } `}
+                                        className={`h-[calc(34px/2)] w-[33%] border-dashed border-b-2 ${step > item.id
+                                             ? "border-yellow-50"
+                                             : "border-richblack-500"
+                                             } `}
                                    ></div>
                               )}
                          </React.Fragment>
@@ -68,11 +66,10 @@ const RenderSteps = () => {
                               className={`flex min-w-[130px] flex-col items-center gap-y-2`}
                          >
                               <p
-                                   className={`${
-                                        step >= item.id
-                                             ? "text-richblack-5"
-                                             : "text-richblack-500"
-                                   } text-sm`}
+                                   className={`${step >= item.id
+                                        ? "text-richblack-5"
+                                        : "text-richblack-500"
+                                        } text-sm`}
                               >
                                    {item.title}
                               </p>
@@ -81,6 +78,7 @@ const RenderSteps = () => {
                </div>
                {step === 1 && <CourseInformationForm />}
                {step === 2 && <CourseBundlerForm />}
+               {step === 3 && <PublishCourse />}
           </>
      );
 };

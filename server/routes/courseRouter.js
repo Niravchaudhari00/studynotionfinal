@@ -41,7 +41,7 @@ const router = Router();
 // 1.course
 router.post("/createCourse", Auth, isInstructor, createCourse);
 router.put("/updateCourse", Auth, isInstructor, editCourse);
-router.delete("/deleteCourse", deleteCourse);
+router.delete("/deleteCourse", Auth, isInstructor, deleteCourse);
 router.get("/getInstructorCourses", Auth, isInstructor, getInstructorCourses);
 
 router.get("/getAllCourse", getAllCourses);

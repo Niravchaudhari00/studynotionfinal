@@ -28,7 +28,7 @@ const Navbar = () => {
                          "GET",
                          categories.CATAGORIES_API
                     );
-                    setSubLink(result.data.data);
+                    setSubLink(result?.data?.data);
                } catch (error) {
                     console.log(error);
                }

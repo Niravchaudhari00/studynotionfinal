@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import {
      addCourse,
@@ -33,37 +33,40 @@ const CourseInformationForm = () => {
      const [loading, setLoading] = useState(false);
 
      useEffect(() => {
-          (async () => {
+          const fetchCetories = async () => {
                setLoading(true);
                const courseCategories = await getCourseCategories();
                if (courseCategories.length > 0) {
                     setCourseCategories(courseCategories);
                }
                setLoading(false);
-          })();
+          }
+
 
           if (editCourse) {
+               console.log(`Edit mode => `, course.category);
                setValue("courseName", course.courseName);
                setValue("courseDescription", course.courseDescription);
                setValue("courseBenefits", course.whatYouWillLearn);
                setValue("price", course.price);
-               setValue("category", course.category);
+               setValue("courseCategory", course.category);
                setValue("courseTag", course.tag);
                setValue("courseInstruction", course.instructions);
                setValue("courseThumnail", course.thumbnail);
           }
+
+          fetchCetories();
      }, []);
 
      // is form update or not
      const isFormUpdate = () => {
           const currentValue = getValues();
-          console.log(`get value`, currentValue);
           if (
                currentValue.courseName !== course.courseName ||
                currentValue.courseDescription !== course.courseDescription ||
                currentValue.courseBenefits !== course.whatYouWillLearn ||
                currentValue.price !== course.price ||
-               currentValue.category !== course.category ||
+               currentValue.courseCategory !== course.category._id ||
                currentValue.courseTag.toString() !== course.tag.toString() ||
                currentValue.courseInstruction.toString() !==
                course.instructions.toString() ||
@@ -77,11 +80,11 @@ const CourseInformationForm = () => {
      const handleOnSubmit = async (data) => {
           // if edit course
           if (editCourse) {
-               console.log(isFormUpdate());
+
                if (isFormUpdate()) {
                     const currentValue = getValues();
+
                     const formData = new FormData();
-                    console.log(`Edit k andar`);
                     formData.append("courseId", course._id);
                     if (currentValue.courseName !== course.courseName) {
                          formData.append("courseName", data.courseName);
@@ -106,8 +109,9 @@ const CourseInformationForm = () => {
                     if (currentValue.price !== course.price) {
                          formData.append("price", data.price);
                     }
-                    if (currentValue.category !== course.category) {
-                         formData.append("category", data.category);
+                    if (currentValue.courseCategory !== course.category._id) {
+                         formData.append("category", data.courseCategory);
+
                     }
                     if (
                          currentValue.courseTag.toString() !==
@@ -148,7 +152,7 @@ const CourseInformationForm = () => {
           formData.append("courseDescription", data.courseDescription);
           formData.append("whatYouWillLearn", data.courseBenefits);
           formData.append("price", data.price);
-          formData.append("category", data.category);
+          formData.append("category", data.courseCategory);
           formData.append("tag", JSON.stringify(data.courseTag));
           formData.append("status", COURSE_STATUS.DRAFT);
           formData.append(
@@ -157,6 +161,7 @@ const CourseInformationForm = () => {
           );
           formData.append("thumbnailImage", data.courseThumnail);
 
+          // course add 
           setLoading(true);
           const result = await addCourse(formData, token);
           if (result) {
@@ -252,23 +257,22 @@ const CourseInformationForm = () => {
                               <sup className="text-pink-200">*</sup>
                          </label>
                          <select
-                              name="category"
                               id="category"
-                              defaultValue={""}
+                              defaultValue={''}
                               className="form-style w-full"
-                              {...register("category", { required: true })}
+                              {...register("courseCategory", { required: true })}
                          >
                               <option value="" disabled>
-                                   Selecte the category
+                                   Choose a Category
                               </option>
                               {!loading &&
-                                   courseCategories?.map((category, i) => (
-                                        <option key={i} value={category?._id}>
+                                   courseCategories?.map((category, index) => (
+                                        <option key={index} value={category?._id}>
                                              {category?.name}
                                         </option>
                                    ))}
                          </select>
-                         {errors.category && (
+                         {errors.courseCategory && (
                               <span className="ml-2 text-xs tracking-wide text-pink-200">
                                    Course categories is required
                               </span>

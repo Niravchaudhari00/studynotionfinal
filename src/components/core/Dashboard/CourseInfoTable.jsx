@@ -17,16 +17,11 @@ const CourseInfoTable = ({ instructorCourses, setInstructorCourses }) => {
      const [loading, setLoadign] = useState(false);
      const { token } = useSelector((state) => state.auth);
 
-     console.log("ins", instructorCourses);
-
-
      const handleCourseDelete = async (courseId) => {
           setLoadign(true);
           await deleteCourses(token, { courseId: courseId });
           const result = await getInstructorCourses(token)
           if (result) {
-
-               console.log("result if k andar", result);
                setInstructorCourses(result)
           }
           setConfirmationModal(null)
@@ -37,7 +32,7 @@ const CourseInfoTable = ({ instructorCourses, setInstructorCourses }) => {
      return (
           <>
                <div
-                    className={`flex gap-y-5 ${instructorCourses?.length === 1 ? 'justify-start' : 'justify-evenly'}  flex-wrap mt-10 h-screen overscroll-y-auto`}
+                    className={`flex gap-y-5 ${instructorCourses?.length === 1 ? 'justify-start' : 'justify-evenly'}  flex-wrap mt-10 overscroll-y-auto`}
                >
                     {instructorCourses?.length === 0 ? (
                          <h1 className="text-4xl text-richblack-5 text-center">
@@ -46,7 +41,7 @@ const CourseInfoTable = ({ instructorCourses, setInstructorCourses }) => {
                     ) : (
                          instructorCourses?.map((courses) => (
                               <div
-                                   className={`max-w-sm sm:w-[400px] flex flex-col items-center h-[400px] rounded shadow-xl shadow-blue-200/25 `}
+                                   className={`max-w-sm sm:w-[400px] flex flex-col items-center h-[420px] rounded shadow-xl shadow-blue-200/25 `}
                               >
                                    <div className="h-[200px]">
                                         <img

@@ -408,7 +408,7 @@ export const deleteCourse = async (req, res) => {
           if (!course) {
                return res.status(404).json({ message: "Course not found" });
           }
-
+          // when you delete the course deleted the enrolled student
           const studentsEnrolled = course.studentsEnrolled;
           for (const studentId of studentsEnrolled) {
                await User.findByIdAndUpdate(studentId, {
@@ -416,6 +416,7 @@ export const deleteCourse = async (req, res) => {
                });
           }
 
+          // when you delete the course delete the section and sub section
           const courseSections = course.courseContent;
           for (const sectionId of courseSections) {
                // Delete sub-sections of the section
@@ -429,6 +430,9 @@ export const deleteCourse = async (req, res) => {
                await Section.findByIdAndDelete(sectionId);
           }
 
+          // when you delete the course delete the category
+          const courseCategory = course.category;
+          console.log(`courseCategory = `, courseCategory);
           await Course.findByIdAndDelete(courseId);
 
           res.status(200).json({

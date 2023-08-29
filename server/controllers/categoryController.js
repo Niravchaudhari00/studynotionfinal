@@ -1,4 +1,9 @@
 import Category from "../models/Category.js";
+
+// get rendom fun
+function getRandomInt(max) {
+     return Math.floor(Math.random() * max);
+}
 // Create a category
 export const createCategory = async (req, res) => {
      try {
@@ -57,7 +62,7 @@ export const getAllCategory = async (req, res) => {
           return res.status(500).json({
                success: false,
                message: `Error occurred while show the all categories. Please try again.`,
-               error: error.message
+               error: error.message,
           });
      }
 };
@@ -69,8 +74,16 @@ export const categoryPageDetails = async (req, res) => {
           const { categoryId } = req.body;
           // Get course for the specified category
           const selectedCategory = await Category.findById({ _id: categoryId })
-               .populate("courses")
+               .populate({
+                    path: "courses",
+                    match: { status: "Published" },
+                    populate: "ratingAndReview",
+                    populate: {
+                         path: "instructor",
+                    },
+               })
                .exec();
+
           // check the category are available or not
           if (!selectedCategory) {
                return res.status(404).json({
@@ -87,56 +100,77 @@ export const categoryPageDetails = async (req, res) => {
                });
           }
 
-          // selected course
-          const selectedCourse = selectedCategory.courses;
-
           // Get course for other categories
           const categoriesExpectSelected = await Category.findById({
-               _id: { $ne: categoryId },
+               $ne: categoryId,
+          });
+
+          // console.log(`categories expext selecte =>`, categoriesExpectSelected);
+          let differentCourses = await Category.findOne({
+               _id: categoriesExpectSelected[
+                    getRandomInt(categoriesExpectSelected.length)
+               ],
           })
-               .populate("courses")
+               .populate({
+                    path: "courses",
+                    match: { status: "Published" },
+                    populate: {
+                         path: "instructor",
+                    },
+               })
                .exec();
 
-          let differentCourses = [];
-          for (const category of categoriesExpectSelected) {
-               differentCourses.push(...category.courses);
-          }
-
           // Get top-selling course across all the category
-          const allCategories = await Category.find({}).populate("courses");
-          const allCourses = allCategories.flatMap((category) => category.courses);
-          const mostSelling = allCourses.sort((a, b) => b.sold - a.sold).slice(0, 10);
+          const allCategories = await Category.find()
+               .populate({
+                    path: "courses",
+                    match: "Published",
+                    populate: {
+                         path: "instructor",
+                    },
+               })
+               .exec();
+
+          const allCourses = allCategories.flatMap(
+               (category) => category.courses
+          );
+          const mostSellingCourse = allCourses
+               .sort((a, b) => b.sold - a.sold)
+               .slice(0, 10);
 
           // return respons
           return res.status(200).json({
-               selectedCourse: selectedCourse,
-               differentCourses: differentCourses,
-               mostSelling: mostSelling,
+               success: true,
+               data: {
+                    selectedCategory,
+                    differentCourses,
+                    mostSellingCourse,
+               },
           });
      } catch (error) {
-          console.log(error.message);
+          console.log(error);
           return res.status(500).json({
-               success: true,
-               message: `Something went wrong. Please try again.`,
+               success: false,
+               message: error.messagess,
           });
      }
 };
 
-// Category delete 
+// Category delete
 
 export const deleteCategory = async (req, res) => {
      try {
           const { categoryId } = req.body;
-          await Category.findOneAndDelete({ _id: categoryId })
+          await Category.findOneAndDelete({ _id: categoryId });
 
           res.status(200).json({
                success: true,
-               message: 'Category deleted successfully'
-          })
+               message: "Category deleted successfully",
+          });
      } catch (error) {
           res.status(500).json({
                success: false,
-               message: error.message
-          })
+               message: error.message,
+          });
      }
-}
+};

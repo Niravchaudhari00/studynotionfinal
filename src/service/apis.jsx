@@ -49,3 +49,8 @@ export const CourseEndPoint = {
      GET_INSTRUCTOR_COURSE_DETAILS: `${BASE_URL}/course/getInstructorCourses`,
      GET_ALL_COURSE_DETAILS: `${BASE_URL}/course/getFullCourseDetails`
 };
+
+// CATEGORY PAGE AND COMPONENT DATA
+export const CatalogEndpoint = {
+     GET_CATEGORY_PAGE_AND_COMPONENT_DATA_API: `${BASE_URL}/course/getCategoryPageDetails`
+}

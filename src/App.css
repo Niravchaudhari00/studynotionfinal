@@ -56,3 +56,7 @@ body {
 .overflow {
      overflow-webkit-scrollbar: none;
 }
+
+.section_heading {
+     @apply text-xl text-richblack-50 font-semibold lg:text-4xl;
+}

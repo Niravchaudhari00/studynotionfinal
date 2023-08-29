@@ -12,7 +12,7 @@ import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import ChipInput from "./ChipInput";
 import Uploadthumnail from "./Uploadthumnail";
 import Requirement from "./Requirement";
-import { setCourse, setStep } from "../../../../../slices/courseSlice";
+import { setCourse, setStep, setEditCourse } from "../../../../../slices/courseSlice";
 import IconBtn from "../../../../common/IconBtn";
 import { MdNavigateNext } from "react-icons/md";
 import { toast } from "react-hot-toast";
@@ -259,7 +259,7 @@ const CourseInformationForm = () => {
                          <select
                               id="category"
                               defaultValue={''}
-                              className="form-style w-full"
+                              className="form-style w-full py-1"
                               {...register("courseCategory", { required: true })}
                          >
                               <option value="" disabled>
@@ -267,7 +267,7 @@ const CourseInformationForm = () => {
                               </option>
                               {!loading &&
                                    courseCategories?.map((category, index) => (
-                                        <option key={index} value={category?._id}>
+                                        <option key={index} value={category?._id} >
                                              {category?.name}
                                         </option>
                                    ))}

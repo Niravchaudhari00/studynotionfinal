@@ -22,6 +22,9 @@ import AddCourse from "./components/core/Dashboard/AddCourse/AddCourse";
 import { ACCOUNT_TYPE } from "../src/utils/constants";
 import MyCourse from "./components/core/Dashboard/MyCourse";
 import EditCourse from "./components/core/Dashboard/AddCourse/EditCourse";
+import Catalog from "./pages/Catalog";
+import Instructor from "./components/core/Dashboard/Instructor/Instructor";
+import Course from "./pages/Course";
 
 function App() {
   const { user } = useSelector((state) => state.profile);
@@ -80,8 +83,13 @@ function App() {
           }
         />
 
+        {/* Create a Catalog route */}
+        <Route path="catalog/:catalogName" element={<Catalog />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="courses/:courseId" element={<Course />} />
+
+
 
         {/* Dashboard protected routes */}
         <Route
@@ -129,6 +137,12 @@ function App() {
               <Route
                 path={"dashboard/edit-course/:courseId"}
                 element={<EditCourse />}
+              />
+
+              {/* dashboard */}
+              <Route
+                path={"dashboard/instructor"}
+                element={<Instructor />}
               />
             </>
           )}

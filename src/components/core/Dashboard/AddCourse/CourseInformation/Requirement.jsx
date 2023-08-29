@@ -49,37 +49,39 @@ const Requirement = ({ label, name, register, setValue, errors }) => {
                               }
                               className="form-style w-full"
                          />
-                         <div className="flex flex-row-reverse w-full justify-between">
+                         <div className="flex flex-row-reverse w-full items-start justify-between">
                               <button
                                    type="button"
                                    onClick={handleAddRequirement}
-                                   className="flex  justify-center items-center font-semibold rounded-lg mt-2 bg-richblack-600/50 text-richblack-5 py-1 px-2 "
+                                   className="flex justify-center  font-semibold rounded-lg mt-2 bg-richblack-600/50 text-richblack-5 py-1 px-2 "
                               >
                                    Add
                               </button>
-                              {requirementList.length > 0 && (
-                                   <ul className="list-inside list-disc">
-                                        {requirementList.map((list, index) => (
-                                             <li
-                                                  className="flex items-center text-richblack-5"
-                                                  key={index}
-                                             >
-                                                  {list}
-                                                  <button
-                                                       type="button"
-                                                       className="flex justify-center items-center ml-2 text-richblack-25ml-2 text-xs text-pure-greys-300"
-                                                       onClick={() =>
-                                                            handleRemoveList(
-                                                                 index
-                                                            )
-                                                       }
+                              <div>
+                                   {requirementList.length > 0 && (
+                                        <ul className="list-inside list-disc">
+                                             {requirementList.map((list, index) => (
+                                                  <li
+                                                       className="flex items-center text-richblack-5"
+                                                       key={index}
                                                   >
-                                                       remove
-                                                  </button>
-                                             </li>
-                                        ))}
-                                   </ul>
-                              )}
+                                                       {list}
+                                                       <button
+                                                            type="button"
+                                                            className="flex justify-center items-center ml-2 text-richblack-25ml-2 text-xs text-pure-greys-300"
+                                                            onClick={() =>
+                                                                 handleRemoveList(
+                                                                      index
+                                                                 )
+                                                            }
+                                                       >
+                                                            remove
+                                                       </button>
+                                                  </li>
+                                             ))}
+                                        </ul>
+                                   )}
+                              </div>
                          </div>
                          {!requirementList.length > 0 ? (
                               errors[name] && (

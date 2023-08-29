@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
-import IconBtn from "../../common/IconBtn";
+
 import { GrAdd } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { getInstructorCourses } from "../../../service/operations/CourseApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CourseInfoTable from "./CourseInfoTable";
 import Spinner from "../../common/Spinner";
-
+import { setEditCourse } from "../../../slices/courseSlice";
 const MyCourse = () => {
      const navigate = useNavigate();
      const [loading, setLoading] = useState(false);
      const { token } = useSelector((state) => state.auth);
      const [instructorCourses, setInstructorCourses] = useState([]);
+     const dispatch = useDispatch();
 
      // reander the instructore course
      useEffect(() => {
           ; (async () => {
-               setLoading(true)
+               setLoading(true);
                try {
                     const result = await getInstructorCourses(token);
                     if (result) {
@@ -25,7 +26,7 @@ const MyCourse = () => {
                } catch (error) {
                     console.log("instructor course details fetch error");
                }
-               setLoading(false)
+               setLoading(false);
           })();
      }, []);
      return (
@@ -36,7 +37,10 @@ const MyCourse = () => {
                     </h1>
                     <button
                          className="flex items-center gap-x-1 p-2 bg-yellow-50 rounded-sm font-semibold hover:bg-yellow-100 duration-200 shadow-md shadow-pure-greys-200/25"
-                         onClick={() => navigate("/dashboard/add-course")}
+                         onClick={() => {
+                              navigate("/dashboard/add-course");
+                              dispatch(setEditCourse(false));
+                         }}
                     >
                          <span className="hidden sm:block">Add Course</span>
                          <GrAdd />
@@ -44,17 +48,16 @@ const MyCourse = () => {
                </div>
 
                {/* course table */}
-               {
-                    loading ?
-                         (<Spinner />)
-                         :
-                         instructorCourses && (
-                              <CourseInfoTable
-                                   instructorCourses={instructorCourses}
-                                   setInstructorCourses={setInstructorCourses}
-                              />
-                         )
-               }
+               {loading ? (
+                    <Spinner />
+               ) : (
+                    instructorCourses && (
+                         <CourseInfoTable
+                              instructorCourses={instructorCourses}
+                              setInstructorCourses={setInstructorCourses}
+                         />
+                    )
+               )}
           </>
      );
 };

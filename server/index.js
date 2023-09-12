@@ -4,13 +4,14 @@ import fileUpload from "express-fileupload";
 import mongodbConnect from "../server/config/database.js";
 import { connectCloudinary } from "../server/config/cloudinary.js";
 import cookieParser from "cookie-parser";
-import cors from 'cors'
+import cors from "cors";
 
 // Import Routes
 import authRouter from "../server/routes/authRouter.js";
-import profileRouter from "../server/routes/profileRouter.js"
-import courseRouter from "../server/routes/courseRouter.js"
-import contactUs from "../server/routes/contactRouter.js"
+import profileRouter from "../server/routes/profileRouter.js";
+import courseRouter from "../server/routes/courseRouter.js";
+import contactUs from "../server/routes/contactRouter.js";
+import paymentRouter from "../server/routes/paymentRouter.js";
 config();
 
 const app = express();
@@ -26,11 +27,11 @@ app.use(
 
 app.use(
      cors({
-          origin: "*"
+          origin: "*",
      })
-)
+);
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 // get routes for testing
 app.get("/", (req, res) => {
@@ -39,8 +40,9 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/profile", profileRouter);
-app.use("/api/v1/course", courseRouter)
-app.use('/api/v1/', contactUs)
+app.use("/api/v1/course", courseRouter);
+app.use("/api/v1/", contactUs);
+app.use("/api/v1/payment", paymentRouter);
 // payment route panding
 // Server
 const PORT = process.env.PORT || 5000;

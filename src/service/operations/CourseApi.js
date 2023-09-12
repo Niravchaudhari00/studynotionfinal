@@ -7,6 +7,7 @@ const {
      ADD_COURSE_API,
      UPDATE_COURSE_API,
      DELETE_COURSE_API,
+     GET_FULL_COURSE_DETAILS_API,
 
      ADD_SECTION_API,
      UPDATE_SECTION_API,
@@ -34,6 +35,25 @@ export const getCourseCategories = async () => {
      } catch (error) {
           console.log("COURSE CATEGORIES API ERROR => ", error);
           toast.error(error);
+     }
+     return result;
+};
+
+// GET FULL COURSE DETAILS
+export const fetchFullCourseDetails = async (courseId) => {
+     let result = null;
+     try {
+          const response = await apiConnector(
+               "POST",
+               GET_FULL_COURSE_DETAILS_API,
+               { courseId: courseId }
+          );
+
+          if (!response?.data?.success) console.log(response?.data?.message);
+          result = response?.data;
+     } catch (error) {
+          console.log(`FETCH ALL COURSE DETALS ERROR => `, error);
+          toast.error(error.response.data.message);
      }
      return result;
 };

@@ -311,6 +311,7 @@ export const getFullCourseDetails = async (req, res) => {
      try {
           const { courseId } = req.body;
           const userId = req.user.id;
+
           const courseDetails = await Course.findOne({
                _id: courseId,
           })
@@ -331,7 +332,7 @@ export const getFullCourseDetails = async (req, res) => {
                .exec();
 
           let courseProgressCount = await CourseProgress.findOne({
-               courseID: courseId,
+               courseId: courseId,
                userId: userId,
           });
 
@@ -366,8 +367,8 @@ export const getFullCourseDetails = async (req, res) => {
                data: {
                     courseDetails,
                     totalDuration,
-                    completedVideos: courseProgressCount?.completedVideos
-                         ? courseProgressCount?.completedVideos
+                    completedVideos: courseProgressCount?.completeVideos
+                         ? courseProgressCount?.completeVideos
                          : [],
                },
           });

@@ -34,6 +34,8 @@ export const CourseEndPoint = {
      ADD_COURSE_API: `${BASE_URL}/course/createCourse`,
      UPDATE_COURSE_API: `${BASE_URL}/course/updateCourse`,
      DELETE_COURSE_API: `${BASE_URL}/course/deleteCourse`,
+     GET_FULL_COURSE_DETAILS_API: `${BASE_URL}/course/getCourseDetails`,
+
 
      //Section API
      ADD_SECTION_API: `${BASE_URL}/course/addSection`,
@@ -53,4 +55,11 @@ export const CourseEndPoint = {
 // CATEGORY PAGE AND COMPONENT DATA
 export const CatalogEndpoint = {
      GET_CATEGORY_PAGE_AND_COMPONENT_DATA_API: `${BASE_URL}/course/getCategoryPageDetails`
+}
+
+// PAYMENT ENDPOINT
+export const PaymentEndpoint = {
+     PAYMENT_ORDER_API: `${BASE_URL}/payment/caputer-payment`,
+     PAYMENT_VERIFY_API: `${BASE_URL}/payment/verify-payment`,
+     PAYMENT_SUCCESS_MAIL_SEND_API: `${BASE_URL}/payment/sendPaymentSuccessEmail`,
 }

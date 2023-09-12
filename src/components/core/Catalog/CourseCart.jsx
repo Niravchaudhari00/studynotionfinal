@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import AvgRatingStart from "../../../utils/AvgRatingStart";
 import RatingStar from "../../common/RatingStar";
 function CourseCart({ course, height }) {
-     console.log(`course : `, course);
      const [aveRatingStar, setAveRatingStar] = useState(null);
      useEffect(() => {
           const count = AvgRatingStart(course?.ratingAndReview)

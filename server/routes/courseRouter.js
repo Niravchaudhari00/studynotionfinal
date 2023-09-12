@@ -46,7 +46,7 @@ router.get("/getInstructorCourses", Auth, isInstructor, getInstructorCourses);
 
 router.get("/getAllCourse", getAllCourses);
 router.post("/getFullCourseDetails", Auth, getFullCourseDetails);
-router.post("/getCourseDetails", Auth, getCourseDetails);
+router.post("/getCourseDetails", getCourseDetails);
 
 // 2. Section
 router.post("/addSection", Auth, isInstructor, createSection);

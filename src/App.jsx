@@ -24,7 +24,7 @@ import MyCourse from "./components/core/Dashboard/MyCourse";
 import EditCourse from "./components/core/Dashboard/AddCourse/EditCourse";
 import Catalog from "./pages/Catalog";
 import Instructor from "./components/core/Dashboard/Instructor/Instructor";
-import Course from "./pages/Course";
+import CourseDetails from "./pages/CourseDetails";
 
 function App() {
   const { user } = useSelector((state) => state.profile);
@@ -87,7 +87,7 @@ function App() {
         <Route path="catalog/:catalogName" element={<Catalog />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
-        <Route path="courses/:courseId" element={<Course />} />
+        <Route path="courses/:courseId" element={<CourseDetails />} />
 
 
 

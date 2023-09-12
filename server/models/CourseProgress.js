@@ -9,10 +9,12 @@ const courseProgressSchema = new Schema({
           type: Schema.Types.ObjectId,
           ref: "User",
      },
-     completeVideos: {
-          type: Schema.Types.ObjectId,
-          ref: "SubSection",
-     },
+     completeVideos: [
+          {
+               type: Schema.Types.ObjectId,
+               ref: "SubSection",
+          },
+     ],
 });
 
 export default model("CourseProgress", courseProgressSchema);

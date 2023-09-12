@@ -4,10 +4,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { FreeMode, Pagination, Navigation, Autoplay } from "swiper/modules";
-import CourseCart from "./CourseCart";
 import { Link } from "react-router-dom";
 function CourseSlide({ courses }) {
-     console.log(`course details = `, courses);
      return (
           <>
                <div>

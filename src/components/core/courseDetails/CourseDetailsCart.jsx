@@ -78,9 +78,7 @@ const CourseDetailsCart = ({ courses, setConfirmModal, handleBuyCourse }) => {
                                    </button>
                               </div>
                          </div>
-
                     </div>
-
                </div>
           </div>
      );

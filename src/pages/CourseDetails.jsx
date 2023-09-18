@@ -111,7 +111,13 @@ const CourseDetails = () => {
                     : isActive.filter((item) => item !== course_id)
           );
      };
+
+     // add to cart
+     const handleAddToCart = () => {
+
+     }
      console.log(`COURSE DETAILS = >`, courseData.data);
+     console.log(user)
      return (
           <>
                <div className={`relative w-full bg-richblack-800`}>
@@ -189,9 +195,14 @@ const CourseDetails = () => {
                                              ? "Go to course"
                                              : "Buy Now"}
                                    </button>
-                                   <button className="blackButton">
-                                        Add to Cart
-                                   </button>
+                                   {(!user || !studentsEnrolled.includes(user?._id)) && (
+                                        <button
+                                             className="blackButton capitalize"
+                                             onClick={handleAddToCart}
+                                        >
+                                             Add to Cart
+                                        </button>
+                                   )}
                               </div>
                          </div>
                     </div>

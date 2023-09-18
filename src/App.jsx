@@ -25,6 +25,8 @@ import EditCourse from "./components/core/Dashboard/AddCourse/EditCourse";
 import Catalog from "./pages/Catalog";
 import Instructor from "./components/core/Dashboard/Instructor/Instructor";
 import CourseDetails from "./pages/CourseDetails";
+import VideoDetails from "./components/core/viewCourse/VideoDetails";
+import Cart from "./components/core/Dashboard/Cart/Cart";
 
 function App() {
   const { user } = useSelector((state) => state.profile);
@@ -34,8 +36,8 @@ function App() {
       <Navbar />
 
       {/* Routes */}
-      {/* Open routes */}
       <Routes>
+        {/* Open routes */}
         <Route path="/" element={<Home />} />
 
         {/* login */}
@@ -87,9 +89,10 @@ function App() {
         <Route path="catalog/:catalogName" element={<Catalog />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
-        <Route path="courses/:courseId" element={<CourseDetails />} />
-
-
+        <Route
+          path="courses/:courseId"
+          element={<CourseDetails />}
+        />
 
         {/* Dashboard protected routes */}
         <Route
@@ -112,12 +115,22 @@ function App() {
           {/* Protected Routes for student only can asscess student */}
           {user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <>
-
               <Route
                 path={"dashboard/enrolled-courses"}
                 element={<EnrolledCourses />}
               />
 
+              <Route
+                path={
+                  "view-course/:courseID/section/:sectionID/sub-section/:subSectionID"
+                }
+                element={<VideoDetails />}
+              />
+
+              <Route
+                path={"dashboard/cart"}
+                element={<Cart />}
+              />
             </>
           )}
 

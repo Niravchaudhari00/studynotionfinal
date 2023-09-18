@@ -41,17 +41,14 @@ const CourseDetailsCart = ({ courses, setConfirmModal, handleBuyCourse }) => {
                                    : "Buy Now"}
                          </button>
 
-                         {!user ||
-                              (!courses?.studentsEnrolled.includes(
-                                   user?._id
-                              ) && (
-                                        <button
-                                             className="blackButton capitalize"
-                                             onClick={handleAddToCart}
-                                        >
-                                             Add to Cart
-                                        </button>
-                                   ))}
+                         {(!user || !courses?.studentsEnrolled?.includes(user._id)) && (
+                              <button
+                                   className="blackButton capitalize"
+                                   onClick={handleAddToCart}
+                              >
+                                   Add to Cart
+                              </button>
+                         )}
                     </div>
                     <p className="pb-3 pt-6 text-center text-sm text-richblack-25">
                          30-Day Money-Back Guarantee

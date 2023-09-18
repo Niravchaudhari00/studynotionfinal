@@ -63,3 +63,8 @@ export const PaymentEndpoint = {
      PAYMENT_VERIFY_API: `${BASE_URL}/payment/verify-payment`,
      PAYMENT_SUCCESS_MAIL_SEND_API: `${BASE_URL}/payment/sendPaymentSuccessEmail`,
 }
+
+export const profileEndpoint = {
+     USER_ENROLLED_COURSE: `${BASE_URL}/profile/getEnrolledCourse`,
+     GET_USER_DETAILS: `${BASE_URL}/profile/getUserDetails`
+}

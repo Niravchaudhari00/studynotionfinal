@@ -12,10 +12,9 @@ export const createRating = async (req, res) => {
           // Check user is enrolled or not
           const courseDetails = await Course.findOne({
                _id: courseId,
-               studentEnrolled: {
-                    $elemMatch: { $eq: userId },
-               },
+               studentsEnrolled: { $elemMatch: { $eq: userId } },
           });
+
           if (!courseDetails) {
                return res.status(404).json({
                     success: false,
@@ -126,24 +125,24 @@ export const getAllRatingAndReveiw = async (req, res) => {
                })
                .populate({ path: "course", select: "courseName" })
                .exec();
-          
+
           if (allReviews.length === 0) {
                return res.status(404).json({
                     success: false,
                     message: `Reviews are not available.`,
-               })
+               });
           }
           // return respons
           return res.status(200).json({
                success: true,
                message: `All reviews fetched successfully`,
-               allReviews
-          })
+               allReviews,
+          });
      } catch (error) {
           console.log(error.message);
           return res.status(500).json({
                success: false,
                message: `Unable to fetched review and rating. Please try again`,
-          })
-      }
+          });
+     }
 };

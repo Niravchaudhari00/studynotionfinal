@@ -25,8 +25,9 @@ import EditCourse from "./components/core/Dashboard/AddCourse/EditCourse";
 import Catalog from "./pages/Catalog";
 import Instructor from "./components/core/Dashboard/Instructor/Instructor";
 import CourseDetails from "./pages/CourseDetails";
-import VideoDetails from "./components/core/viewCourse/VideoDetails";
 import Cart from "./components/core/Dashboard/Cart/Cart";
+import ViewCourse from "./pages/ViewCourse";
+import VideoDetails from '../src/components/core/viewCourse/VideoDetails'
 
 function App() {
   const { user } = useSelector((state) => state.profile);
@@ -121,13 +122,6 @@ function App() {
               />
 
               <Route
-                path={
-                  "view-course/:courseID/section/:sectionID/sub-section/:subSectionID"
-                }
-                element={<VideoDetails />}
-              />
-
-              <Route
                 path={"dashboard/cart"}
                 element={<Cart />}
               />
@@ -159,6 +153,25 @@ function App() {
               />
             </>
           )}
+        </Route>
+
+        {/* view course  */}
+        <Route
+          element={
+            <PrivateRoute>
+              <ViewCourse />
+            </PrivateRoute>
+          }>
+          {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+                <Route
+                  path={`view-course/:courseId/section/:sectionId/sub-section/:subSectionId`}
+                  element={<VideoDetails />}>
+                </Route>
+              </>
+            )
+          }
         </Route>
 
         {/* Erorr page */}

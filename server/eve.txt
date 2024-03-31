@@ -1,0 +1,28 @@
+PORT = 4000
+# mongodb://127.0.0.1:27017
+# mongodb+srv://nirav16bca:HL1WBUxoqvjl89rI@studynotion.9jwmxwh.mongodb.net
+MONGODB_URL = mongodb://127.0.0.1:27017/stduyNation
+
+# SEND MAIL
+SMTP_HOST = smtp.gmail.com
+SMTP_PORT = 587
+SMTP_MAIL = nir7308@gmail.com
+SMTP_PASS = qdcmpepxfcsiehqn
+ 
+
+# JWTWEBTOKEN
+JWT_TOKEN_SECRET = niravchaudhari
+JWT_TOKEN_EXPIRE = 24h
+
+# CLOUDINARY KEY
+API_SECRET = rynMmRR85bxwYnTeHFej-bKZKZs
+API_KEY = 744455475995591
+API_NAME = dxhnowikm
+CLOUD_FOLDER_NAME = stduyNation
+
+# RAZORPAY
+RAZORPAY_KEY_ID = rzp_test_IRrrUL27Dx168I
+RAZORPAY_KEY_SECRET = twtoNnZW8WTk8g6gKfQhxfiE
+
+# URL FOR RESET PASSWORD TOKEN
+URL_RESET_PASSWORD_TOKEN = http://localhost:3000/update-password

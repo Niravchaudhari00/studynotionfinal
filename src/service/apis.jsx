@@ -35,8 +35,8 @@ export const CourseEndPoint = {
      UPDATE_COURSE_API: `${BASE_URL}/course/updateCourse`,
      DELETE_COURSE_API: `${BASE_URL}/course/deleteCourse`,
      GET_FULL_COURSE_DETAILS_API: `${BASE_URL}/course/getCourseDetails`,
-
-
+     GET_FULL_COURSE_API: `${BASE_URL}/course/getFullCourseDetails`,
+     UPDATE_COURSE_PROGRESS_API: `${BASE_URL}/course/updateCourseProgress`,
      //Section API
      ADD_SECTION_API: `${BASE_URL}/course/addSection`,
      UPDATE_SECTION_API: `${BASE_URL}/course/updateSection`,
@@ -47,9 +47,12 @@ export const CourseEndPoint = {
      UPDATE_SUB_SECTION_API: `${BASE_URL}/course/updateSubSection`,
      DELETE_SUB_SECTION_API: `${BASE_URL}/course/deleteSubSection`,
 
-     // GET Course details
+     // Get course API
      GET_INSTRUCTOR_COURSE_DETAILS: `${BASE_URL}/course/getInstructorCourses`,
-     GET_ALL_COURSE_DETAILS: `${BASE_URL}/course/getFullCourseDetails`
+     GET_ALL_COURSE_DETAILS: `${BASE_URL}/course/getFullCourseDetails`,
+
+     // COURSE RATING API
+     CREATE_COURSE_RATING_API: `${BASE_URL}/course/rating`
 };
 
 // CATEGORY PAGE AND COMPONENT DATA
@@ -62,4 +65,9 @@ export const PaymentEndpoint = {
      PAYMENT_ORDER_API: `${BASE_URL}/payment/caputer-payment`,
      PAYMENT_VERIFY_API: `${BASE_URL}/payment/verify-payment`,
      PAYMENT_SUCCESS_MAIL_SEND_API: `${BASE_URL}/payment/sendPaymentSuccessEmail`,
+}
+
+export const profileEndpoint = {
+     USER_ENROLLED_COURSE: `${BASE_URL}/profile/getEnrolledCourse`,
+     GET_USER_DETAILS: `${BASE_URL}/profile/getUserDetails`
 }

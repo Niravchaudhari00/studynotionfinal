@@ -3,7 +3,8 @@ import Profile from "../models/Profile.js";
 import fileUploadOnCloudinary, {
      isFileTypeSupported,
 } from "../utils/fileUploadOnCloudinary.js";
-
+import convertSecondToDuration from "../utils/convertSecondToDuration.js";
+import CourseProgress from "../models/CourseProgress.js";
 // update profile
 export const updateProfile = async (req, res) => {
      try {
@@ -25,15 +26,13 @@ export const updateProfile = async (req, res) => {
                lastName,
           });
 
-          await Profile.findByIdAndUpdate(
-               userDetails.additionalDetails,
-               {
-                    gender,
-                    dateOfBirth,
-                    contactNumber,
-                    about,
-               });
-          
+          await Profile.findByIdAndUpdate(userDetails.additionalDetails, {
+               gender,
+               dateOfBirth,
+               contactNumber,
+               about,
+          });
+
           const updateUserDetails = await User.findById(userId)
                .populate("additionalDetails")
                .exec();
@@ -171,26 +170,83 @@ export const getUserEnrolledCourse = async (req, res) => {
      try {
           // Fetcht the userid
           const userId = req.user.id;
-          const userDetails = await User.findOne({ _id: userId })
-               .populate("courses")
+          let userDetails = await User.findOne({ _id: userId })
+               .populate({
+                    path: "courses",
+                    populate: {
+                         path: "courseContent",
+                         populate: {
+                              path: "subSection",
+                         },
+                    },
+               })
                .exec();
+
+          userDetails = userDetails.toObject();
+          let subSectionLength = 0;
+
+          for (let i = 0; i < userDetails.courses.length; i++) {
+
+               let totalDurationInSeconds = 0;
+               subSectionLength = 0;
+
+               for (let j = 0; j < userDetails.courses[i].courseContent.length; j++) {
+
+                    // totalDurationInSecond
+                    totalDurationInSeconds += userDetails
+                         .courses[i]
+                         .courseContent[j]
+                         .subSection
+                         .reduce((acc, curr) => acc + parseInt(curr.timeDuration), 0);
+
+                    userDetails
+                         .courses[i]
+                         .totalDuration = convertSecondToDuration(totalDurationInSeconds);
+                    // find a subsection length
+                    subSectionLength += userDetails
+                         .courses[i]
+                         .courseContent[j]
+                         .subSection
+                         .length;
+               }
+
+               let courseProgressCount = await CourseProgress.findOne({
+                    courseId: userDetails.courses[i]._id,
+                    userId: userId,
+               });
+
+               courseProgressCount = courseProgressCount?.completeVideos.length;
+
+               if (subSectionLength === 0) {
+                    userDetails.courses[i].progressPercentage = 100;
+               } else {
+                    const multiplier = Math.pow(10, 2);
+                    userDetails.courses[i].progressPercentage =
+                         Math.round(
+                              (courseProgressCount / subSectionLength) *
+                              100 *
+                              multiplier
+                         ) / multiplier;
+               }
+          }
+
           // Check wheather user is enrolled course or not
           if (!userDetails) {
                return res.status(404).json({
                     success: false,
-                    message: `could not find user with this id ${userDetails}`,
+                    message: `could not find user with this id ${userDetails._id}`,
                });
           }
 
           return res.status(200).json({
                success: true,
-               data: userDetails,
+               data: userDetails.courses,
           });
      } catch (error) {
+          console.log(error);
           return res.status(500).json({
                success: false,
                message: `Error occurred while fetched the enrolled user details. Please try again.`,
-               error: error.message,
           });
      }
 };

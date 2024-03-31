@@ -73,7 +73,7 @@ router.post("/getCategoryPageDetails", categoryPageDetails);
 //         Student Routes        //
 // *****************************//
 router.post("/updateCourseProgress", Auth, isStudent, updateCourseProgress);
-router.post("rating", Auth, isStudent, createRating);
+router.post("/rating", Auth, isStudent, createRating);
 router.get("/getAverageRating", getAverageRating);
 router.get("/getAllRatingAndReveiw", getAllRatingAndReveiw);
 

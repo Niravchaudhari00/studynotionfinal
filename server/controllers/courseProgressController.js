@@ -3,6 +3,7 @@ import SubSection from "../models/SubSection.js";
 
 const updateCourseProgress = async (req, res) => {
      try {
+
           const { courseId, subSectionId } = req.body;
           const userId = req.user.id;
 
@@ -25,22 +26,24 @@ const updateCourseProgress = async (req, res) => {
           } else {
                if (courseProgress.completeVideos.includes(subSectionId)) {
                     return res.status(400).json({
-                         error: `Subsection already is complated`,
+                         error: `Lecture already complated`,
                     });
                }
 
                courseProgress.completeVideos.push(subSectionId);
           }
+
           await courseProgress.save();
 
           return res.status(200).json({
                success: true,
-               error: "Course progress updated",
+               message: "Course progress updated",
           });
      } catch (error) {
-          return res.status(500).json({
+          console.log(error)
+          return res.status(200).json({
                success: false,
-               error: "Internel server error",
+               message: error.message,
           });
      }
 };

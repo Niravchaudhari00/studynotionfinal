@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { MdClose } from "react-icons/md";
-import { toast } from "react-hot-toast";
 const ChipInput = ({
      label,
      name,
      setValue,
-     getValue,
      register,
      placeholder,
      errors,
